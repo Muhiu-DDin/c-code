@@ -1,6 +1,9 @@
 #include <iostream>
 using namespace std;
 
+// by using just *head_refer instead of **head_refer , only the copy of pointer is passes to the function , so the address of function not chnage originally but you can change the value by using this not address, for changing address we have to use **head_refer
+
+
 struct node
 {
     int data;

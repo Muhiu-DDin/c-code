@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 
+
 struct node
 {
     int data;
@@ -18,12 +19,10 @@ void enqueue(node **front_refer, node **rear_refer, int data)
     {
         *front_refer = new_node;
         *rear_refer = new_node;
-        new_node->next = *front_refer;
     }
     else
     {
         (*rear_refer)->next = new_node;
-        new_node->next = *front_refer;
         (*rear_refer) = (*rear_refer)->next;
     }
 }
@@ -33,29 +32,17 @@ void dequeue(node **front_refer , node **rear_refer)
 
     node *current = *front_refer;
 
-    do
+     while (current != NULL)
     {
         int num = current->data;
         *front_refer = current->next;
-        (*rear_refer)->next = *front_refer;
         free(current);
         current = *front_refer;
         cout << num << endl;
-    } while (current->next != *front_refer);
+    }
     cout<<current->data;
 }
 
-void printList(node **front_refer, node **rear_refer)
-{
-    node *current = *front_refer;
-
-    do
-    {
-        cout << current->data << endl;
-        current = current->next;
-
-    } while (current != *front_refer);
-}
 
 int main()
 {
