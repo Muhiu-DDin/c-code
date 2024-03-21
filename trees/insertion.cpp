@@ -33,15 +33,15 @@ node *insert(node *root, int data)
 
 void search(node *root, int data)
 {
-   if (root == NULL)
+    if (root == NULL)
     {
-        cout << "not found";
-         return;
+        cout << "not found" << endl;
+        return;
     }
 
     if (root->data == data)
     {
-        cout << "found";
+        cout << "found" << endl;
         return;
     }
 
@@ -55,15 +55,63 @@ void search(node *root, int data)
     }
 }
 
+
+node* findMin(node* root)
+{
+    while (root->left != NULL)
+    {
+        root = root->left;
+    }
+    // the min value after return will save in pointer temp
+    return root;
+}
+
+
+
+node* deleted(node* root , int data){
+    if(root == NULL){
+        cout<<"not found";
+        return root;
+    }
+    if(data > root->data){
+        root->right = deleted(root->right , data);
+    }
+    else if(data < root->data){
+        root->left = deleted(root->left , data);
+    }
+    else{
+        if(root->right == NULL && root->left == NULL){
+            delete root;
+            root = NULL;
+        }
+        else if(root->left == NULL){
+            node* temp = root;
+            // updating the pointer of current node to its right child
+            root = root->right;
+            delete temp;
+            return root;
+        }
+        else if(root->right == NULL){
+            node* temp = root;
+            root = root->left;
+            delete temp;
+             return root;
+        }
+        else if(root->right != NULL && root->left != NULL){
+
+           node* temp =  findMin(root->right);
+           root->data = temp->data;
+           root->right = deleted(root->right , temp->data);
+              
+        }
+    }
+    return root;
+}
+
 int main()
 {
 
     node *root = NULL;
-
-    // 101 , after making new node with data 101, return new_node call , which go and store to the variable root and become the root node of 101
-    // This new node (with the value 101) is then returned from the insert function.
-    // This returned node becomes the root of the tree and is assigned to the root pointer in the main function.
-    // So, when return new_node; is called for the first time while inserting 98, the new node (101) goes back to where the insert function was initially called, which is in the main function, and it becomes the root of the tree.
 
     root = insert(root, 100);
     insert(root, 98);
@@ -72,7 +120,9 @@ int main()
     insert(root, 112);
     insert(root, 76);
     insert(root, 99);
+    insert(root, 300);
 
-    search(root , 199);
+root = deleted(root , 99);
+
     return 0;
 }

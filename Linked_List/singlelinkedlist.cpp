@@ -22,13 +22,6 @@ void printList(node **head_refer)
     }
 }
 
-void insertAtFirst(node **head_refer, int data)
-{
-    node *new_node = new node();
-    new_node->data = data;
-    new_node->next = *head_refer;
-    *head_refer = new_node;
-}
 
 void insert(node **head_refer, int data)
 {
@@ -143,10 +136,10 @@ int main()
 {
 
     node *head = NULL;
-    insert(&head, 1);
-    insert(&head, 2);
-    insert(&head, 3);
     insert(&head, 5);
+    insert(&head, 3);
+    insert(&head, 8);
+    insert(&head, 2);
 
     Deletelist(&head);
 
