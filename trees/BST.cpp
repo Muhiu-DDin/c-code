@@ -55,6 +55,15 @@ void search(node *root, int data)
     }
 }
 
+void inorder(node* root){
+    if(root!=NULL){
+        inorder(root->left);
+        cout<<root->data<<" ";
+        inorder(root->right);
+    }
+    return;
+}
+
 
 node* findMin(node* root)
 {
@@ -65,7 +74,6 @@ node* findMin(node* root)
     // the min value after return will save in pointer temp
     return root;
 }
-
 
 
 node* deleted(node* root , int data){
@@ -123,6 +131,7 @@ int main()
     insert(root, 300);
 
 root = deleted(root , 99);
+inorder(root);
 
     return 0;
 }
