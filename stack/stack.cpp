@@ -25,16 +25,18 @@ void push(node**top_refer , int data){
     }
 
 
-void pop(node** head_refer){
-    node*current = *head_refer;
-    while (current != NULL)
-    {
-        int num = current->data;
-        *head_refer = current->next;
-        free(current);
-        current = *head_refer;
-        cout<<num<<endl;
-    }
+void pop(node*& top_refer){
+
+if(top_refer==NULL){
+    cout<<"empty stack";
+return;
+}
+node* current = top_refer;
+
+    top_refer = current->next;
+     cout<<"the poped element is"<< current->data;
+    delete current;
+
 }
 
 void printList(node **head_refer)

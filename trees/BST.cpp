@@ -55,17 +55,18 @@ void search(node *root, int data)
     }
 }
 
-void inorder(node* root){
-    if(root!=NULL){
+void inorder(node *root)
+{
+    if (root != NULL)
+    {
         inorder(root->left);
-        cout<<root->data<<" ";
+        cout << root->data << " ";
         inorder(root->right);
     }
     return;
 }
 
-
-node* findMin(node* root)
+node *findMin(node *root)
 {
     while (root->left != NULL)
     {
@@ -75,42 +76,49 @@ node* findMin(node* root)
     return root;
 }
 
-
-node* deleted(node* root , int data){
-    if(root == NULL){
-        cout<<"not found";
+node *deleted(node *root, int data)
+{
+    if (root == NULL)
+    {
+        cout << "not found";
         return root;
     }
-    if(data > root->data){
-        root->right = deleted(root->right , data);
+    if (data > root->data)
+    {
+        root->right = deleted(root->right, data);
     }
-    else if(data < root->data){
-        root->left = deleted(root->left , data);
+    else if (data < root->data)
+    {
+        root->left = deleted(root->left, data);
     }
-    else{
-        if(root->right == NULL && root->left == NULL){
+    else
+    {
+        if (root->right == NULL && root->left == NULL)
+        {
             delete root;
             root = NULL;
         }
-        else if(root->left == NULL){
-            node* temp = root;
+        else if (root->left == NULL)
+        {
+            node *temp = root;
             // updating the pointer of current node to its right child
             root = root->right;
             delete temp;
             return root;
         }
-        else if(root->right == NULL){
-            node* temp = root;
+        else if (root->right == NULL)
+        {
+            node *temp = root;
             root = root->left;
             delete temp;
-             return root;
+            return root;
         }
-        else if(root->right != NULL && root->left != NULL){
+        else if (root->right != NULL && root->left != NULL)
+        {
 
-           node* temp =  findMin(root->right);
-           root->data = temp->data;
-           root->right = deleted(root->right , temp->data);
-              
+            node *temp = findMin(root->right);
+            root->data = temp->data;
+            root->right = deleted(root->right, temp->data);
         }
     }
     return root;
@@ -129,9 +137,11 @@ int main()
     insert(root, 76);
     insert(root, 99);
     insert(root, 300);
+    insert(root, 250);
+    insert(root, 251);
 
-root = deleted(root , 99);
-inorder(root);
+    root = deleted(root, 99);
+    inorder(root);
 
     return 0;
 }
