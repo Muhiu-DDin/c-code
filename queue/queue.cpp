@@ -1,60 +1,64 @@
 #include <iostream>
 using namespace std;
 
-
-struct node
-{
+struct node{
     int data;
-    node *next;
+    node* next;
 };
 
-void enqueue(node **front_refer, node **rear_refer, int data)
-{
+void enQueue(node*& front_refer , node*& rear_refer , int data){
 
-    node *new_node = new node();
-    new_node->data = data;
-    new_node->next = NULL;
+node* new_node = new node();
+new_node-> data = data;
+new_node->next = NULL;
 
-    if (*front_refer == NULL && *rear_refer == NULL)
-    {
-        *front_refer = new_node;
-        *rear_refer = new_node;
-    }
-    else
-    {
-        (*rear_refer)->next = new_node;
-        (*rear_refer) = (*rear_refer)->next;
-    }
+if(front_refer == NULL && rear_refer == NULL){
+    front_refer = new_node;
+    rear_refer = new_node;
+}
+else{
+     rear_refer -> next = new_node;
+     rear_refer = new_node;
+}
 }
 
-void dequeue(node **front_refer , node **rear_refer)
-{
+void deQueue(node*& front_refer , node*& rear_refer){
 
-    node *current = *front_refer;
+node* current = front_refer;
 
-     while (current != NULL)
-    {
-        int num = current->data;
-        *front_refer = current->next;
-        free(current);
-        current = *front_refer;
-        cout << num << endl;
-    }
-    cout<<current->data;
+front_refer = front_refer->next;
+delete current;
+
 }
 
-
-int main()
+void printQueue(node*& front_refer)
 {
-    node *front = NULL;
-    node *rear = NULL;
+  node* current = front_refer;
 
-    enqueue(&front, &rear, 0);
-    enqueue(&front, &rear, 1);
-    enqueue(&front, &rear, 2);
-    enqueue(&front, &rear, 3);
+  while(current != NULL){
+    cout<< current->data<<endl;
+    current = current->next;
+  }
+}
 
-    dequeue(&front, &rear);
+int main(){
+    
+
+node* rear = NULL;
+ node* front = NULL;
+
+
+enQueue(front , rear , 10);
+enQueue(front , rear , 20);
+enQueue(front , rear , 30);
+enQueue(front , rear , 40);
+enQueue(front , rear , 50);
+enQueue(front , rear , 60);
+
+deQueue(front , rear);
+
+printQueue(front);
+
 
     return 0;
 }
