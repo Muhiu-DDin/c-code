@@ -8,6 +8,11 @@ struct node
     node *right;
 };
 
+// if we use pointer of pointer then we do not need to return nodes and the function return type would be void
+// the commented return statement in the delete function is not neccessory because your are updating root in each case of deletion function , and after all  return root; which is in the last line.. return the updated root to the caller which is in the main function , and set to the root , root = deletion( , );
+// but writing return root in each case is a good practice;
+
+
 node *insert(node *root, int data)
 {
 
@@ -97,6 +102,7 @@ node *deleted(node *root, int data)
         {
             delete root;
             root = NULL;
+            // return root;
         }
         else if (root->left == NULL)
         {
@@ -104,14 +110,14 @@ node *deleted(node *root, int data)
             // updating the pointer of current node to its right child
             root = root->right;
             delete temp;
-            return root;
+            // return root;
         }
         else if (root->right == NULL)
         {
             node *temp = root;
             root = root->left;
             delete temp;
-            return root;
+            // return root;
         }
         else if (root->right != NULL && root->left != NULL)
         {
@@ -119,6 +125,7 @@ node *deleted(node *root, int data)
             node *temp = findMin(root->right);
             root->data = temp->data;
             root->right = deleted(root->right, temp->data);
+            //  return root; 
         }
     }
     return root;
@@ -140,8 +147,9 @@ int main()
     insert(root, 250);
     insert(root, 251);
 
-    root = deleted(root, 99);
+    root = deleted(root, 251);
     inorder(root);
 
     return 0;
 }
+
