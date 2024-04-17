@@ -26,7 +26,7 @@ void deQueue(node*& front_refer , node*& rear_refer){
 
 node* current = front_refer;
 
-front_refer = front_refer->next;
+front_refer = current->next;
 delete current;
 
 }

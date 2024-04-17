@@ -9,6 +9,7 @@ using namespace std;
 
 //      for (int a = 0 ; a<4 ; a++){
 //             cout<<*(p+a)<<endl;
+            
 //      }
 //     return 0;
 // }
