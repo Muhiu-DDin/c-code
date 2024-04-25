@@ -135,6 +135,7 @@ node *deleted(node *root_refer, int data)
         {
             if (current->left == NULL && current->right == NULL)
             {
+                // if the deleted root is root of the tree
                 if (parent == NULL)
                 {
                     delete current;

@@ -8,6 +8,7 @@ struct node
     node *right;
 };
 
+
 // if we use pointer of pointer then we do not need to return nodes and the function return type would be void
 // the commented return statement in the delete function is not neccessory because your are updating root in each case of deletion function , and after all  return root; which is in the last line.. return the updated root to the caller which is in the main function , and set to the root , root = deletion( , );
 // but writing return root in each case is a good practice;

@@ -80,7 +80,8 @@ string infixToPrefix(node *&top_refer, string infix)
 
         if ((chaar >= 'a' && chaar <= 'z') || (chaar >= 'A' && chaar <= 'Z'))
         {
-            prefix = chaar + prefix;
+            // prepending
+            prefix = chaar + prefix; 
         }
         else if (chaar == ')')
         {
@@ -93,6 +94,7 @@ string infixToPrefix(node *&top_refer, string infix)
                 prefix = top_refer->data + prefix;
                 pop(top_refer);
             }
+            // removing ')'
             if (top_refer != NULL && top_refer->data == ')')
             {
                 pop(top_refer);
@@ -108,7 +110,7 @@ string infixToPrefix(node *&top_refer, string infix)
             push(top_refer, chaar);
         }
     }
-
+    // emptying stack;
     while (top_refer != NULL)
     {
         prefix = top_refer->data + prefix;

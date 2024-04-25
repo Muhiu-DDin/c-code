@@ -9,17 +9,17 @@ int front = -1;
 void enqueue(int data)
 {
 
-    if (rear == capacity - 1)
-    {
-        cout << "overflow queue";
-    }
-
-    else if (rear == -1 && front == -1)
+    if (rear == -1 && front == -1)
     {
         rear = 0;
         front = 0;
         queue[rear] = data;
     }
+    else if (rear == capacity - 1)
+    {
+        cout << "overflow queue";
+    }
+
     else
     {
         rear++;
@@ -52,7 +52,7 @@ void print()
         cout << queue[front];
         front++;
     }
-    cout<<queue[front];
+    cout << queue[front];
 }
 
 int main()
