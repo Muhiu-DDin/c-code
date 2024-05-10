@@ -13,7 +13,7 @@ while(left<=right){
     if(li[mid] == key){
         
         cout<<"your desire number have found at"<< mid <<endl;
-        return 0;
+        return;
     }
 
     else if(li[mid] < key){

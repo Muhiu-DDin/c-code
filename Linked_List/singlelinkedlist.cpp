@@ -1,149 +1,134 @@
 #include <iostream>
 using namespace std;
 
-// by using just *head_refer instead of **head_refer , only the copy of pointer is passes to the function , so the address of function not chnage originally but you can change the value by using this not address, for changing address we have to use **head_refer
-
-
-struct node
-{
+struct node{
     int data;
-    node *next;
+    node* next;
 };
 
-void printList(node **head_refer)
-{
-    node *current = *head_refer;
-    int index = 0;
-    while (current != NULL)
-    {
-        cout << current->data << " at index " << index << endl;
-        current = current->next;
-        index++;
-    }
-}
-
-
-void insert(node **head_refer, int data)
-{
-
-    node *new_node = new node();
+void insert(node*& head_refer , int data){
+    node* new_node = new node();
     new_node->data = data;
     new_node->next = NULL;
 
-    if (*head_refer == NULL)
-    {
-        *head_refer = new_node;
+    if(head_refer == NULL){
+        head_refer = new_node;
     }
-
-    else
-    {
-        node *current = *head_refer;
-        while (current->next != NULL)
-        {
+    else{
+        node* current = head_refer;
+        while(current->next != NULL){
             current = current->next;
         }
         current->next = new_node;
     }
 }
 
-
-void deleteNode(node **head_refer)
+void search (node*& head_refer , int data)
 {
+    if(head_refer == NULL){
+        cout<<"empty list";
+        return;
+    }
+    else{
+        node* current = head_refer;
+        int i = 0;
+        while(current != NULL){
 
-    node *current = *head_refer;
-    int to_Delete;
-    cout << "enter the number you want to delete";
-    cin >> to_Delete;
-
-    node *prev = NULL;
-    while (current != nullptr)
-    {
-        if (current->data == to_Delete)
-        {
-            if (current->next == nullptr)
-            {
-                prev->next = nullptr;
-                free(current);
+            if(current->data == data){
+                cout<< endl << "found at index" << " " << i ;
                 return;
             }
-
-            if (prev == NULL)
-            {
-                *head_refer = current->next;
-                free(current);
-                return;
+            else{
+                current = current->next;
+                i++;
             }
+        }
+         cout<< endl << "not found";
+    }
+}
 
+void deleted(node*& head_refer , int data){
+
+    if(head_refer == NULL){
+        cout<<"empty list";
+        return;
+    }
+    else{
+        node* prev = NULL;
+        node* current = head_refer;
+
+        while(current != NULL){
+
+        if(current->data == data){
+
+        if(prev == NULL){
+        head_refer = current->next;
+        delete current;
+        return;
+        } 
+
+        else if(current->next == NULL){
+            prev->next = NULL;
+            delete current;
+            return;
+        }
+        else{
             prev->next = current->next;
-            free(current);
+            delete current;
             return;
         }
-
-        prev = current;
-        current = current->next;
-    }
-    cout << "not found" << endl;
-}
-
-void Deletelist(node **head_refer)
-{
-    node *current = *head_refer;
-    node *next = *head_refer;
-
-    while (current != NULL)
-    {
-        next = current->next;
-        *head_refer = current->next;
-        free(current);
-        current = next;
-    }
-    *head_refer = NULL;
-    cout << "list have been deleted successfully";
-}
-
-void search(node **head_refer)
-{
-    int to_find;
-    cout << "enter your desire node" << endl;
-    cin >> to_find;
-    node *current = *head_refer;
-
-    // cout<<"enter the data of new_node";
-    // int data;
-    // cin>>data;
-
-    while (current != NULL)
-    {
-
-        if (current->data == to_find)
-        {
-            cout << "found";
-
-            // node* new_node = new node();
-            // new_node->data = data;
-            // new_node->next = current->next;
-            // current->next = new_node;
-            return;
         }
-
-        current = current->next;
+        else{
+            prev = current;
+            current = current->next;
+        }
+        }
+        cout<<"not found";
+        return;
     }
-    cout << "not found";
-    return;
 }
 
-int main()
-{
+void deleteAll(node*& head_refer){
+      node* current = head_refer;
+      node* temp = head_refer;
 
-    node *head = NULL;
-    insert(&head, 5);
-    insert(&head, 3);
-    insert(&head, 8);
-    insert(&head, 2);
+      while(current != NULL){
+        current = temp->next;
+        head_refer = temp->next;
+        delete temp;
+         temp = current;
+      }
+      head_refer = NULL;
+      cout<<"list deleted sucessfully";
+}
 
-    Deletelist(&head);
+void print(node*& head_refer){
+   node* current = head_refer;
+   int i = 0;
+   while(current != NULL){
+    cout<<current->data << " ";
+    i++;
+    current = current->next;
+   }
+   cout<<"no. of nodes are"<<" "<<i;
+}
 
-    printList(&head);
+int main(){
+    
+    node* head = NULL;
+    insert(head , 10);
+    insert(head , 20);
+    insert(head , 30);
+    insert(head , 40);
+    insert(head , 50);
+    insert(head , 60);
+    insert(head , 70);
 
+
+    deleted(head , 60);
+    // deleteAll(head);
+    print(head);
+    // search(head , 100);
+    
     return 0;
 }

@@ -25,7 +25,7 @@ node *insert(node *root_refer, int data)
     else
     {
         node *current = root_refer;
-        while (true)
+        while (current != NULL)
         {
             if (data > current->data)
             {
@@ -59,7 +59,6 @@ node *insert(node *root_refer, int data)
             }
         }
     }
-    return root_refer;
 }
 
 void search(node *root_refer, int data)
@@ -202,14 +201,14 @@ node *deleted(node *root_refer, int data)
             }
             else
             {
-                node *temp = findMin(root_refer->right);
+                node *temp = findMin(current->right);
                 current->data = temp->data;
                 current->right = deleted(current->right, temp->data);
                 return root_refer;
             }
         }
     }
-    return root_refer;
+      return root_refer;
 }
 
 
