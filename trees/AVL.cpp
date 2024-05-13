@@ -48,6 +48,8 @@ node *rightRotate(node *root_refer)
     x->right = y;
     y->left = t;
 
+    // updating hights;
+    
     y->height = max(height(y->left), height(y->right)) + 1;
     x->height = max(height(x->left), height(x->right)) + 1;
 
@@ -91,34 +93,56 @@ node *insert(node *root_refer, int data)
         }
         else
         {
-            root_refer->left = insert(root_refer->left, data);
+            root_refer-> left = insert(root_refer->left, data);
         }
     }
 
     root_refer->height = 1 + max(height(root_refer->left), height(root_refer->right));
-    int balance = balanceFact(root_refer);
+    int balance = balanceFact(root_refer); 
 
-    if (balance > 1 && data < root_refer->left->data)
-    {
-        return rightRotate(root_refer);
-    }
+    // if (balance > 1 && data < root_refer->left->data)
+    // {
+    //     return rightRotate(root_refer);
+    // }
 
-    if (balance < -1 && data > root_refer->right->data)
-    {
-        return leftRotate(root_refer);
-    }
+    // if (balance < -1 && data > root_refer->right->data)
+    // {
+    //     return leftRotate(root_refer);
+    // }
 
-    if (balance > 1 && data > root_refer->left->data)
-    {
-        root_refer->left = leftRotate(root_refer->left);
-        return rightRotate(root_refer);
-    }
+    // if (balance > 1 && data > root_refer->left->data)
+    // {
+    //     root_refer->left = leftRotate(root_refer->left);
+    //     return rightRotate(root_refer);
+    // }
 
-    if (balance < -1 && data < root_refer->right->data)
-    {
-        root_refer->right = rightRotate(root_refer->right);
-        return leftRotate(root_refer);
-    }
+    // if (balance < -1 && data < root_refer->right->data)
+    // {
+    //     root_refer->right = rightRotate(root_refer->right);
+    //     return leftRotate(root_refer);
+    // }
+
+     // Left Left Case
+        if (balance > 1 && balanceFact(root_refer->left) >= 0)
+            return rightRotate(root_refer);
+
+        // Right Right Case
+        if (balance < -1 && balanceFact(root_refer->right) <= 0)
+            return leftRotate(root_refer);
+
+        // Left Right Case
+        if (balance > 1 && balanceFact(root_refer->left) < 0)
+        {
+            root_refer->left = leftRotate(root_refer->left);
+            return rightRotate(root_refer);
+        }
+
+        // Right Left Case
+        if (balance < -1 && balanceFact(root_refer->right) > 0)
+        {
+            root_refer->right = rightRotate(root_refer->right);
+            return leftRotate(root_refer);
+        }
 
     return root_refer;
 }

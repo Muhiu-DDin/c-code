@@ -1,36 +1,80 @@
 #include <iostream>
 using namespace std;
 
-int findPivot(int list[] , int low , int high){
 
-int pivot = list[high];
-
-
-
-
-
-
-
-
+void maxHeap(int list[] , int index, int size){
+    int parent = (index-1)/2;
+    while(index > 0  &&  list[parent] < list[index]){
+        int temp = list[parent];
+        list[parent] = list[index];
+        list[index] = temp;
+        index = parent;
+        parent = (index-1)/2;
+    }
 }
-
-
-void quickSort(int list[] , int low , int high){
-
-    int pindx = findPivot(list,low,high);
-    quickSort(list , low , pindx-1);
-     quickSort(list , pindx+1 , high);
-
+void minHeap(int list[] , int index , int size){
+    int parent = (index-1)/2;
+    while(index > 0 && list[parent] >= 0 && list[parent] > list[index]){
+        int temp = list[parent];
+        list[parent] = list[index];
+        list[index] = temp;
+        index = parent;
+        parent = (index-1)/2;
+    }
 }
+void deleted(int list[] , int size , int& heap){
+    list[0] = list[heap-1];
+    heap--;
+    int index = 0 ;
 
+    while(index < heap){
+    int left = (2*index)+1;
+    int right = (2*index)+2;
+    int largest = index;
+
+    if(left < heap && list[largest]<list[left]){
+        largest = left;
+    }
+    if(right < heap && list[largest]<list[right]){
+        largest = right;    
+    }
+    if(index != largest){
+        int temp = list[largest];
+        list[largest] = list[index];
+        list[index] = temp;
+
+        index = largest;
+    }
+    else{
+        return;
+    }
+    }
+}
+void insert(int list[] , int size , int& heap , int data){
+     if (heap == size)
+    {
+        cout << "array is full";
+        return;
+    } 
+    list[heap] = data;
+    heap++;
+    maxHeap(list , heap-1 , size);
+}
+void print(int list[] , int heap){
+    for(int a = 0 ; a < heap ; a++){
+        cout<<list[a]<<" ";
+    }
+}
 
 int main(){
-int list[] = {6 , 3 , 9 , 5 , 2 , 9, 8};
-int size = 7;
-int low = 0;
-int high = size-1;
+    int size = 5;
+    int heap = 0;
+    int list[size];
+    insert(list , size , heap , 10);
+    insert(list , size , heap , 50);
+    insert(list , size , heap , 90);
+    insert(list , size , heap , 20);
+    insert(list , size , heap , 60);
 
-quickSort(list , low , high);
-    
-    return 0;
-}
+    print(list , size);
+    }

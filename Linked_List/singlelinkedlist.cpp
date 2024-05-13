@@ -46,8 +46,9 @@ void search (node*& head_refer , int data)
          cout<< endl << "not found";
     }
 }
+// if head_refer changes , then we have to pass pointer of pointer of refence to a pointer , in the case where head node is to be deleted then the code will no work because deleting head lead to change head pointer , whilte the other cases like last node or middle , head refer is not changing therefore then the code will work for these two cases but not for delteing head
 
-void deleted(node*& head_refer , int data){
+void deleted(node* head_refer , int data){
 
     if(head_refer == NULL){
         cout<<"empty list";

@@ -5,7 +5,7 @@ struct node{
     int data;
     node* next;
 };
-
+ 
 void enQueue(node*& front_refer , node*& rear_refer , int data){
 
 node* new_node = new node();

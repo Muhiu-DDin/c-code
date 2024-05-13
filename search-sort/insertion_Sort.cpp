@@ -11,7 +11,7 @@ for(int i = 1 ; i < size ; i++ ){
         j--; 
     }
     list[j+1] = temp;
-}   
+}
 }
 
 void print(int list[] , int size){

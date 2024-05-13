@@ -1,111 +1,117 @@
 #include <iostream>
 using namespace std;
-const int size = 10;
-int array[size];
-int heap = 0;
 
-void maxHeapify(int index)
-{
-    int parent = (index - 1) / 2;
-    while (index > 0 && array[index] > array[parent])
-    {
-        int temp = array[index];
-        array[index] = array[parent];
-        array[parent] = temp;
 
+void maxHeap(int list[] , int index, int size){
+    int parent = (index-1)/2;
+    while(index > 0  &&  list[parent] < list[index]){
+        int temp = list[parent];
+        list[parent] = list[index];
+        list[index] = temp;
         index = parent;
-        parent = (index - 1) / 2;
+        parent = (index-1)/2;
     }
 }
-
-void minHeapify(int index)
-{
-    int parent = (index - 1) / 2;
-    while (parent > 0 && array[parent] > array[index])
-    {
-        int temp = array[index];
-        array[index] = array[parent];
-        array[parent] = temp;
-
+void minHeap(int list[] , int index , int size){
+    int parent = (index-1)/2;
+    while(index > 0 && list[parent] >= 0 && list[parent] > list[index]){
+        int temp = list[parent];
+        list[parent] = list[index];
+        list[index] = temp;
         index = parent;
-        parent = (index - 1) / 2;
+        parent = (index-1)/2;
     }
 }
+void deletedMax(int list[] , int size , int& heap){
+    list[0] = list[heap-1];
+    heap--;
+    int index = 0 ;
 
-void insert(int data)
-{
-    if (heap == size - 1)
+    while(index < heap){
+    int left = (2*index)+1;
+    int right = (2*index)+2;
+    int largest = index;
+
+    if(left < heap && list[largest]<list[left]){
+        largest = left;
+    }
+    if(right < heap && list[largest]<list[right]){
+        largest = right;    
+    }
+    if(index != largest){
+        int temp = list[largest];
+        list[largest] = list[index];
+        list[index] = temp;
+
+        index = largest;
+    }
+    else{
+        return;
+    }
+    }
+}
+void maxHeapForSort(int list[] ,  int index , int& heap){
+    while(index < heap){
+    int left = (2*index)+1;
+    int right = (2*index)+2;
+    int largest = index;
+
+    if(left < heap && list[largest]<list[left]){
+        largest = left;
+    }
+    if(right < heap && list[largest]<list[right]){
+        largest = right;    
+    }
+    if(index != largest){
+        int temp = list[largest];
+        list[largest] = list[index];
+        list[index] = temp;
+
+        index = largest;
+    }
+    else{
+        return;
+    }
+    }
+}
+void heapSort(int list[] , int size , int&heap){
+    for(int i = heap/2-1 ; i >= 0 ; i--){
+        maxHeapForSort(list , i , heap);
+    }
+    for(int i = heap-1 ; i > 0 ; i--){
+        int temp = list[0];
+        list[0] = list[i];
+        list[i] = temp;
+        maxHeapForSort(list , 0 , i);
+    }
+}
+void insert(int list[] , int size , int& heap , int data){
+     if (heap == size)
     {
         cout << "array is full";
         return;
-    }
-    else
-    {
-        array[heap] = data;
-        heap++;
-        maxHeapify(heap - 1);
-        minHeapify(heap - 1);
-    }
+    } 
+    list[heap] = data;
+    heap++;
+    maxHeap(list , heap-1 , size);
 }
-
-void deleted()
-{
-
-    array[0] = array[heap - 1];
-    heap--;
-
-    int index = 0;
-    while (index < heap)
-    {
-
-        int left = (2 * index) + 1;
-        int right = (2 * index) + 2;
-
-        int largest = index;
-
-        if (left < heap && array[left] > array[largest])
-        {
-            largest = left;
-        }
-        if (right < heap && array[right] > array[largest])
-        {
-            largest = right;
-        }
-
-        if (largest != index)
-        {
-            int temp = array[index];
-            array[index] = array[largest];
-            array[largest] = temp;
-
-            index = largest;
-        }
-        else
-        {
-            return;
-        }
+void print(int list[] , int heap){
+    for(int a = 0 ; a < heap ; a++){
+        cout<<list[a]<<" ";
     }
 }
 
-void print()
-{
-
-    for (int a = 0; a < size; a++)
-    {
-        cout << array[a] << " ";
+int main(){
+    int size = 5;
+    int heap = 0;
+    int list[size];
+    insert(list , size , heap , 10);
+    insert(list , size , heap , 50);
+    insert(list , size , heap , 90);
+    insert(list , size , heap , 20);
+    insert(list , size , heap , 60);
+   print(list , heap);
+   cout<<endl;
+    heapSort(list , size , heap);
+    print(list , heap);
     }
-}
-
-int main()
-{
-
-    insert(5);
-    insert(10);
-    insert(3);
-    insert(7);
-    insert(1);
-
-deleted();
-    print();
-    return 0;
-}

@@ -1,0 +1,2 @@
+ heapSort();
+    print();

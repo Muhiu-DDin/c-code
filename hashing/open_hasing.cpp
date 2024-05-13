@@ -60,7 +60,7 @@ void search(node *array[], int key, int size)
 int main()
 {
 
-    const int size = 10;
+    int size = 10;
     node *array[size] = {NULL};
 
     insert(array, 10, 10);

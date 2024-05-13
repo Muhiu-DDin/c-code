@@ -83,7 +83,8 @@ void deleteNode(node **head_refer)
             if(current->next == NULL){
                 current->prev->next = NULL;
                 free(current);
-                return;
+                    return;
+                    
             }
 
             current->prev->next = current->next;
@@ -96,6 +97,8 @@ void deleteNode(node **head_refer)
             current = current->next;
         }
     }
+    cout<<"not found";
+    return;
 }
 
 void deleteList(node **head_refer)
@@ -134,7 +137,7 @@ int main()
     insert(&head, 2);
     insert(&head, 3);
 
-    deleteList(&head);
+    deleteNode(&head);
     printList(&head);
 
     return 0;
