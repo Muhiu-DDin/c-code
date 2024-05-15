@@ -9,12 +9,8 @@ struct node
 };
 
 
-// if we use pointer of pointer then we do not need to return nodes and the function return type would be void
-// the commented return statement in the delete function is not neccessory because your are updating root in each case of deletion function , and after all  return root; which is in the last line.. return the updated root to the caller which is in the main function , and set to the root , root = deletion( , );
-// but writing return root in each case is a good practice;
 
-
-node *insert(node *root, int data)
+node *insert(node *&root, int data)
 {
 
     if (root == NULL)
@@ -82,7 +78,7 @@ node *findMin(node *root)
     return root;
 }
 
-node *deleted(node *root, int data)
+node *deleted(node *&root, int data)
 {
     if (root == NULL)
     {
@@ -132,11 +128,38 @@ node *deleted(node *root, int data)
     return root;
 }
 
-int main()
-{
+node* inorderPre(node* root , int data){
+    node* pre = NULL;
+    node* curr = root;
+    while(curr != NULL){
+        if(curr->data < data){
+            pre = curr;
+            curr = curr->right;
+        }
+        else{
+            curr = curr->left;
+        }
+    }
+    return pre;
+}
 
-    node *root = NULL;
+node* inorderSucc(node* root , int data){
+    node* succ = NULL;
+    while(root!=NULL){
+        if(root->data > data){
+            succ = root;
+            root = root->left;
+        }
+        else{
+            root = root->right;
+        }
+    }
+    return succ;
+}
 
+int main() {
+
+    node* root = nullptr;
     root = insert(root, 100);
     insert(root, 98);
     insert(root, 127);
@@ -148,9 +171,25 @@ int main()
     insert(root, 250);
     insert(root, 251);
 
-    root = deleted(root, 251);
-    inorder(root);
+inorder(root);
+cout<< endl;
 
-    return 0;
+    int value = 256;
+
+    node* pre = inorderPre(root, value);
+    if(pre == NULL){
+        cout<<"no predeccessor";
+    }
+    else{
+        cout<<"predeccessor of " << value << " is " << pre->data;
+    }
+
+    node* succ = inorderSucc(root, value);
+    if(succ == NULL){
+        cout<<"no predeccessor";
+    }
+    else{
+        cout<<"predeccessor of " << value << " is " << succ->data;
+    }
+        return 0;
 }
-

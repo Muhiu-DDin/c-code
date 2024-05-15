@@ -74,7 +74,7 @@ void maxHeapForSort(int list[] ,  int index , int& heap){
     }
     }
 }
-void heapSort(int list[] , int size , int&heap){
+void heapSort(int list[] , int&heap){
     // for(int i = heap/2-1 ; i >= 0 ; i--){
     //     maxHeapForSort(list , i , heap);
     // }
@@ -112,7 +112,8 @@ int main(){
     insert(list , size , heap , 20);
     insert(list , size , heap , 60);
    print(list , heap);
-   cout<<endl;
-    heapSort(list , size , heap);
-    print(list , heap);
+   return 0 ;
+//    cout<<endl;
+//     heapSort(list , heap);
+//     print(list , heap);
     }

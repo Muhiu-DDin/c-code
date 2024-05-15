@@ -1,38 +1,62 @@
 #include <iostream>
+#include <queue>
 using namespace std;
 
-struct node {
+// Queue implementation
+struct QueueNode {
     int data;
-    node* next;
+    QueueNode* next;
 };
 
-void enqueue(node*& rear, node*& front, int data) {
-    node* new_node = new node();
-    new_node->data = data;
-    new_node->next = NULL;
+struct Queue {
+    QueueNode* front;
+    QueueNode* rear;
+};
 
-    if (rear == NULL && front == NULL) {
-        rear = new_node;
-        front = new_node;
+Queue* createQueue() {
+    Queue* q = new Queue();
+    q->front = q->rear = nullptr;
+    return q;
+}
+
+void enqueue(Queue* q, int data) {
+    QueueNode* newNode = new QueueNode();
+    newNode->data = data;
+    newNode->next = nullptr;
+
+    if (q->rear == nullptr) {
+        q->front = q->rear = newNode;
     } else {
-        rear->next = new_node;
-        rear = new_node;
+        q->rear->next = newNode;
+        q->rear = newNode;
     }
 }
 
-void dequeue(node*& rear, node*& front) {
-    if (front == NULL) {
+void dequeue(Queue* q) {
+    if (q->front == nullptr) {
         cout << "Queue is empty." << endl;
         return;
     }
-
-    node* current = front;
-    front = current->next;
-    if (front == NULL) {
-        rear = NULL;
+    QueueNode* temp = q->front;
+    q->front = q->front->next;
+    delete temp;
+    if (q->front == nullptr) {
+        q->rear = nullptr;
     }
-    delete current;
 }
+
+int peek(Queue* q) {
+    if (q->front == nullptr) {
+        cout << "Queue is empty." << endl;
+        return -1; // Return some default value indicating queue is empty
+    }
+    return q->front->data;
+}
+
+bool isEmpty(Queue* q) {
+    return q->front == nullptr;
+}
+
 // Graph structures
 struct edge {
     int data;
@@ -43,7 +67,8 @@ struct vertex {
     int data;
     vertex* next;
     edge* edgeList;
-    bool visited; 
+    bool visited;
+    int parent;
 };
 
 void insertVertex(vertex*& head_refer, int data){
@@ -52,6 +77,7 @@ void insertVertex(vertex*& head_refer, int data){
     new_node->next = NULL;
     new_node->edgeList = NULL;
     new_node->visited = false;
+    new_node->parent = -1;
 
     if (head_refer == NULL) {
         head_refer = new_node;
@@ -63,6 +89,7 @@ void insertVertex(vertex*& head_refer, int data){
         current->next = new_node;
     }
 }
+
 void insertEdge(vertex*& head_refer, int vertexData, int data) {
     edge* new_node = new edge();
     new_node->data = data;
@@ -87,41 +114,54 @@ void insertEdge(vertex*& head_refer, int vertexData, int data) {
     }
 }
 
-void BFS(vertex*& start ,node*& rear, node*& front){
-    if (start == nullptr) {
-        return;
+void getPath(vertex* start, vertex* end, int path[], int& pathLength) {
+    int currentVertex = end->data;
+    while (currentVertex != -1) {
+        path[pathLength++] = currentVertex;
+        vertex* current = start;
+        while (current != nullptr && current->data != currentVertex) {
+            current = current ->next;
+        }
+        currentVertex = current->parent;
     }
-    start->visited = true;
-    enqueue(rear, front, start->data);
+}
 
-    while (rear != NULL && front != NULL) {
-        int currentVertexData = front->data;
-        cout << currentVertexData << " ";
-        dequeue(rear, front);
+void BFS(vertex*& start) {
+    if (start == nullptr) return;
+
+    start->visited = true; 
+    start->parent = -1;
+
+    Queue* q = createQueue();
+    enqueue(q, start->data);
+
+    while (!isEmpty(q)) {
+        int currentVertexData = peek(q);
+        dequeue(q);
 
         vertex* currentVertex = start;
         while (currentVertex != nullptr && currentVertex->data != currentVertexData) {
             currentVertex = currentVertex->next;
         }
+
         edge* currentEdge = currentVertex->edgeList;
         while (currentEdge != nullptr) {
             vertex* adjacentVertex = start;
             while (adjacentVertex != nullptr && adjacentVertex->data != currentEdge->data) {
                 adjacentVertex = adjacentVertex->next;
             }
-            if (adjacentVertex != nullptr && adjacentVertex->visited == false) {
-                 adjacentVertex->visited = true;
-                enqueue(rear, front, adjacentVertex->data);
+            if (adjacentVertex != nullptr && !adjacentVertex->visited) {
+                adjacentVertex->visited = true;
+                adjacentVertex->parent = currentVertex->data;
+                enqueue(q, adjacentVertex->data);
             }
             currentEdge = currentEdge->next;
-        } 
+        }
     }
 }
 
 int main() {
     vertex* head = NULL;
-    node* rear = nullptr;
-    node* front = nullptr;
 
     // Adding vertices
     insertVertex(head, 0);
@@ -139,7 +179,28 @@ int main() {
     insertEdge(head, 3, 3);
     insertEdge(head, 3, 4);
 
-    BFS(head , rear , front);
+   
+    BFS(head);
+
+ 
+    int path[100];
+    int pathLength = 0;
+    vertex* start = head;
+    vertex* end = head;
+    while (start != nullptr && start->data != 0) {
+        start = start->next;
+    }
+    while (end != nullptr && end->data != 4) {
+        end = end->next;
+    }
+    getPath(head, end, path, pathLength);
+    
+  
+    cout << "\nPath from 0 to 4: ";
+    for (int i = pathLength - 1; i >= 0; --i) {
+        cout << path[i] << " ";
+    }
+    cout << endl;
 
     return 0;
 }
