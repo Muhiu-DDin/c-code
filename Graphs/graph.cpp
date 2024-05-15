@@ -88,7 +88,9 @@ void insertEdge(vertex*& head_refer, int vertexData, int data) {
 }
 
 void BFS(vertex*& start ,node*& rear, node*& front){
-    if (start == nullptr) return;
+    if (start == nullptr) {
+        return;
+    }
     start->visited = true;
     enqueue(rear, front, start->data);
 

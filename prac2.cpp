@@ -68,7 +68,7 @@ struct vertex {
     vertex* next;
     edge* edgeList;
     bool visited;
-    int parent; // Store parent vertex for path reconstruction
+    int parent;
 };
 
 void insertVertex(vertex*& head_refer, int data){
@@ -77,7 +77,7 @@ void insertVertex(vertex*& head_refer, int data){
     new_node->next = NULL;
     new_node->edgeList = NULL;
     new_node->visited = false;
-    new_node->parent = -1; // Initialize parent to -1 (indicating no parent)
+    new_node->parent = -1;
 
     if (head_refer == NULL) {
         head_refer = new_node;
@@ -152,7 +152,7 @@ void BFS(vertex*& start) {
             }
             if (adjacentVertex != nullptr && !adjacentVertex->visited) {
                 adjacentVertex->visited = true;
-                adjacentVertex->parent = currentVertex->data; // Set parent for path reconstruction
+                adjacentVertex->parent = currentVertex->data;
                 enqueue(q, adjacentVertex->data);
             }
             currentEdge = currentEdge->next;
@@ -179,11 +179,11 @@ int main() {
     insertEdge(head, 3, 3);
     insertEdge(head, 3, 4);
 
-    // Perform BFS
+   
     BFS(head);
 
-    // Path between vertex 0 and vertex 4
-    int path[100]; // Assuming maximum path length
+ 
+    int path[100];
     int pathLength = 0;
     vertex* start = head;
     vertex* end = head;
@@ -195,7 +195,7 @@ int main() {
     }
     getPath(head, end, path, pathLength);
     
-    // Print the path
+  
     cout << "\nPath from 0 to 4: ";
     for (int i = pathLength - 1; i >= 0; --i) {
         cout << path[i] << " ";

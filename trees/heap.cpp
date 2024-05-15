@@ -75,9 +75,9 @@ void maxHeapForSort(int list[] ,  int index , int& heap){
     }
 }
 void heapSort(int list[] , int size , int&heap){
-    for(int i = heap/2-1 ; i >= 0 ; i--){
-        maxHeapForSort(list , i , heap);
-    }
+    // for(int i = heap/2-1 ; i >= 0 ; i--){
+    //     maxHeapForSort(list , i , heap);
+    // }
     for(int i = heap-1 ; i > 0 ; i--){
         int temp = list[0];
         list[0] = list[i];
@@ -85,6 +85,7 @@ void heapSort(int list[] , int size , int&heap){
         maxHeapForSort(list , 0 , i);
     }
 }
+
 void insert(int list[] , int size , int& heap , int data){
      if (heap == size)
     {
