@@ -30,8 +30,8 @@ void Hotel::menu(){
     cout<<"\n\t SN:       Funtions:               Descriptons:";
     cout<<"\n\t 01 \t Allocate Room \t\t Insert New Room";
     cout<<"\n\t 02 \t Search Room \t\t Search Room Via Room ID";
-    cout<<"\n\t 03 \t Update Room \t\t Update Room Record";
-    cout<<"\n\t 04 \t Delete Room \t\t Delete Room Record";
+    cout<<"\n\t 03 \t Update Room \t\t Update Room Record Via Room ID";
+    cout<<"\n\t 04 \t Delete Room \t\t Delete Room Record Via Room ID";
     cout<<"\n\t 05 \t Show Room Record\t Display Room Record";
     cout<<"\n\t 06 \t exit";
 
@@ -71,6 +71,7 @@ void Hotel::menu(){
 void Hotel::insertRoom(){
     cout<<"\n\t _______Hotel Management System_______\n";
     Node* new_node = new Node();
+    new_node->next = NULL;
 
     cout<<"\n ENTER ROOM ID";
     cin>>new_node->ID;
@@ -201,11 +202,11 @@ cout<<"\n\t Record Deleted Successfully";
 void Hotel::show(){
     Node* ptr = head;
         while(ptr != NULL){
-            cout<<"\n\t Your Room Record:";
-            cout<<"\n\n\t ROOM ID"<< " " << ptr->ID;
-            cout<<"\n\t CUSTOMER NAME"<< " " << ptr->customerName;
-            cout<<"\n\t ROOM TYPE"<< " " << ptr->roomType;
-            cout<<"\n\t ALLOCATED DATE"<< " " << ptr->date;
+            cout<<"\n\t Your Room Records:";
+            cout<<"\n\n\t ROOM ID:"<< " " << ptr->ID;
+            cout<<"\n\t CUSTOMER NAME:"<< " " << ptr->customerName;
+            cout<<"\n\t ROOM TYPE:"<< " " << ptr->roomType;
+            cout<<"\n\t ALLOCATED DATE:"<< " " << ptr->date;
 
             ptr = ptr->next;
         }
@@ -224,7 +225,7 @@ void Hotel:: sort(){
 
     for(int a = 0 ; a < count-1 ; a++){
         Node* curr = head;
-        for(int b = 0 ; a < count-a-1 ; b++){
+        for(int b = 0 ; b < count-a-1 ; b++){
          if(curr->ID > curr->next->ID){
             cID = curr->ID;
             rDate = curr->date;
