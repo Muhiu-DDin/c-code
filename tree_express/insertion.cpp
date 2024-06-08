@@ -46,7 +46,7 @@ void insertion(node *&head_refer, string postfix)
     for (int a = 0; a < postfix.length(); a++)
     {
         char data = postfix[a];
-        if ((data >= 'a' && data <= 'z') || (data >= 'A' && data <= 'Z'))
+        if ((data >= '0' && data <= '9') || (data >= 'A' && data <= 'Z'))
         {
             node *new_node = new node();
             new_node->data = data;

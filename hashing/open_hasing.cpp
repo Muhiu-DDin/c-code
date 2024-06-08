@@ -1,87 +1,79 @@
 #include <iostream>
 using namespace std;
 
-struct node
-{
+struct node{
     int data;
-    node *next;
+    node* next;
 };
 
-void insert(node *array[], int key, int size)
-{
+void insert(node* list[] , int key , int size){
+    node* new_node = new node();
+    new_node->data = key;
+    new_node->next = NULL;
 
     int index = key % size;
-    if (array[index] == NULL)
-    {
-        array[index] = new node();
-        array[index]->data = key;
-        array[index]->next = NULL;
+    if(list[index] == NULL){
+        list[index] = new_node;
+
     }
-    else
-    {
-        node *temp = array[index];
-        while (temp->next != NULL)
-        {
-            temp = temp->next;
+    else{
+        node* curr = list[index];
+        while(curr->next!= NULL){
+            curr = curr->next;
         }
-        temp->next = new node();
-        temp->next->data = key;
-        temp->next->next = NULL;
+        curr->next = new_node;
     }
 }
 
-void search(node *array[], int key, int size)
-{
-    int index = key % size;
-
-    if (array[index]->data == key)
-    {
-        cout << "found";
+void search(node* list[] , int size , int key){
+    int index = key%size;
+    if(list[index]->data = key){
+        cout<<"found";
         return;
     }
-    else
-    {
-        node *temp = array[index];
-        while (temp != NULL)
-        {
-            if (temp->data == key)
-            {
-                cout << "found";
+    else{
+        node* curr = list[index];
+        while(curr != NULL){
+            if(curr->data = key){
+                cout<<"found";
                 return;
             }
-            else
-            {
-                temp = temp->next;
-            }
+            curr = curr->next;
         }
-        cout << "not found";
+        cout<<"not found";
+        return;
     }
 }
-int main()
-{
 
-    int size = 10;
-    node *array[size] = {NULL};
-
-    insert(array, 10, 10);
-    insert(array, 20, 10);
-    insert(array, 30, 10);
-    insert(array, 40, 10);
-    insert(array, 50, 10);
-    insert(array, 60, 10);
-    insert(array, 70, 10);
-    insert(array, 80, 10);
-    insert(array, 90, 10);
-    insert(array, 100, 10);
-
-     for (int i = 0; i < size; i++) {
-        node* temp = array[i];
-        while (temp != NULL) {
-            cout << temp->data << " ";
-            temp = temp->next;
-        }
-        cout << "NULL" << endl;
+void print(node* list[] , int size){
+    for(int a = 0 ; a < size ; a++){
+            node* curr = list[a];
+            while(curr!=NULL){
+                cout<<curr->data<<" ";
+                curr = curr->next;
+            }
+            cout<<"NULL";
+            cout<<endl;
+           
     }
+}
+
+int main(){
+    int size = 10;
+    node* list[size] = {NULL};
+
+    insert(list , 30 , size);
+    insert(list , 50 , size);
+    insert(list , 70 , size);
+    insert(list , 55 , size);
+    insert(list , 53 , size);
+    insert(list , 21 , size);
+
+    print(list , size);
+
+
+
+  
 
     return 0;
 }

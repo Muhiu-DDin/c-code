@@ -55,6 +55,14 @@ void print()
     cout << queue[front];
 }
 
+// or
+
+ void print(int list[] , int rear , int front , int size){
+    for(int a = front ; a <= rear ; a++){
+        cout<< list[a]<<" ";
+    }
+ }
+
 int main()
 {
 

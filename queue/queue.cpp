@@ -41,6 +41,16 @@ void printQueue(node*& front_refer)
   }
 }
 
+// or
+void print(node* rear , node* front){
+    while(front != rear){
+        cout<<front->data<< " ";
+        front = front->next;
+    }
+    cout<<front->data<<" ";
+}
+
+
 int main(){
     
 

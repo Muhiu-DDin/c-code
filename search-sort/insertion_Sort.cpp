@@ -7,10 +7,10 @@ for(int i = 1 ; i < size ; i++ ){
     int j = i-1;
     int temp = list[i];
     while(j >= 0 && temp<list[j]){
-        list[j+1] = list[j];
+        list[j+1] = list[j]; 
         j--; 
     }
-    list[j+1] = temp;
+    list[j+1] = temp; 
 }
 }
 

@@ -7,7 +7,7 @@ int pivot = list[high];
 int i = low-1;
 
 for(int j = low ; j < high ; j++ ){
-    if(list[j]< list[high]){
+    if(list[j]< pivot){
         i++;
         int current = list[i];
         list[i]=list[j];

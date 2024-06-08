@@ -1,104 +1,169 @@
 #include <iostream>
 using namespace std;
 
-struct Node {
+struct node {
     int data;
-    Node* left;
-    Node* right;
+    node* next;
 };
 
-
-Node* insert(Node* root, int value) {
-    if (root == nullptr) {
-        Node* newNode = new Node;
-        newNode->data = value;
-        newNode->left = nullptr;
-        newNode->right = nullptr;
-        return newNode;
-    }
-    if (root->left == nullptr) {
-        root->left = insert(root->left, value);
-        if (root->left->data > root->data) {
-            swap(root->left->data, root->data);
-        }
-    } else if (root->right == nullptr) {
-        root->right = insert(root->right, value);
-        if (root->right->data > root->data) {
-            swap(root->right->data, root->data);
-        }
+void enqueue(node*& front, node*& rear, int data) {
+    node* new_node = new node();
+    new_node->data = data;
+    new_node->next = NULL;
+    if (front == NULL && rear == NULL) {
+        front = new_node;
+        rear = new_node;
     } else {
-        if (root->left != nullptr) {
-            root->left = insert(root->left, value);
-            if (root->left->data > root->data) {
-                swap(root->left->data, root->data);
-            }
-        } else {
-            root->right = insert(root->right, value);
-            if (root->right->data > root->data) {
-                swap(root->right->data, root->data);
+        rear->next = new_node;
+        rear = new_node;
+    }
+}
+
+void dequeue(node*& front, node*& rear) {
+    if (front == NULL) return;
+
+    node* temp = front;
+    front = front->next;
+    if (front == NULL) {
+        rear = NULL;
+    }
+    delete temp;
+}
+
+struct edge {
+    int data;
+    edge* next;
+};
+
+struct vertex {
+    int data;
+    bool visited;
+    int parent; // To store the parent vertex
+    vertex* next;
+    edge* edgeList;
+};
+
+void insertVertex(vertex*& head, int data) {
+    vertex* new_node = new vertex();
+    new_node->data = data;
+    new_node->visited = false;
+    new_node->parent = -1; // Initialize parent to -1
+    new_node->edgeList = NULL;
+    new_node->next = NULL;
+
+    if (head == NULL) {
+        head = new_node;
+    } else {
+        vertex* curr = head;
+        while (curr->next != NULL) {
+            curr = curr->next;
+        }
+        curr->next = new_node;
+    }
+}
+
+void insertEdge(vertex* head, int vertexData, int data) {
+    edge* new_node = new edge();
+    new_node->data = data;
+    new_node->next = NULL;
+    if (head == NULL) {
+        return;
+    } else {
+        vertex* curr = head;
+        while (curr != NULL) {
+            if (curr->data == vertexData) {
+                if (curr->edgeList == NULL) {
+                    curr->edgeList = new_node;
+                } else {
+                    edge* temp = curr->edgeList;
+                    while (temp->next != NULL) {
+                        temp = temp->next;
+                    }
+                    temp->next = new_node;
+                }
+                return;
+            } else {
+                curr = curr->next;
             }
         }
     }
-    return root;
 }
 
+void BFS(vertex* head) {
+    if (head == NULL) return;
 
-Node* inorderPre(Node*& root , int data){
-Node*pre = NULL;
-while(root!=NULL){
-    if(root->data < data){
-        pre = root;
-        root = root->right;
+    node* front = NULL;
+    node* rear = NULL;
+
+    enqueue(front , rear , head->data);
+    head->visited = true;
+    while(front!=NULL){
+        int currVertexData = front->data;
+        dequeue(front , rear),
+        cout<<currVertexData<<" ";
+
+        vertex* currVertex = head;
+        while(currVertex != NULL && currVertex->data != currVertexData){
+            currVertex = currVertex->next;
+        }
+        if(currVertex!=NULL){
+            edge* currEdge = currVertex->edgeList;
+            while(currEdge!=NULL){
+                vertex* adjacent = head;
+                while(adjacent!=NULL && adjacent->data != currEdge->data){
+                    adjacent = adjacent->next;
+                }
+                if(adjacent != NULL && adjacent->visited == false){
+                    enqueue(front, rear , adjacent->data);
+                    adjacent->visited = true;
+                    adjacent->parent = currVertex->data; // Record the parent
+                }
+                currEdge = currEdge->next;
+            }
+        }
+
     }
-    else if(root->data > data){
-        root = root->left;
-    }
-}
-return pre;
 }
 
-Node* inorderSucc(Node*& root , int data){
-Node*succ= NULL;
-while(root!=NULL){
-    if(root->data < data){
-        root = root->right;
-    }
-    else if(root->data > data){
-        succ = root;
-        root = root->left;
-    }
-}
-return succ;
-}
+void printPath(vertex* start, vertex* end) {
+    if (start == nullptr || end == nullptr) return;
 
-void inOrderTraversal(Node* root) {
-    if (root == nullptr) return;
-    inOrderTraversal(root->left);
-    cout << root->data << " ";
-    inOrderTraversal(root->right);
+    cout << "Path from " << start->data << " to " << end->data << ": ";
+    while (end->data != start->data) {
+        cout << end->data << " ";
+        end = end->next;
+    }
+    cout << start->data << endl;
 }
 
 int main() {
-    Node* root = nullptr;
+    vertex* head = NULL;
 
-    root = insert(root, 70);
-    insert(root, 10);
-    insert(root, 50);
-    insert(root, 90);
-    insert(root, 20);
-    insert(root, 60);
+    // Add vertices
+    insertVertex(head, 1);
+    insertVertex(head, 2);
+    insertVertex(head, 3);
+    insertVertex(head, 4);
+    insertVertex(head, 5);
+     
+    // Add edges
+    insertEdge(head, 1, 2);
+    insertEdge(head, 1, 3);
+    insertEdge(head, 2, 4);
+    insertEdge(head, 3, 4);
+    insertEdge(head, 4, 5);
 
-    cout << "In-order traversal of BST: ";
-    inOrderTraversal(root);
+    // Perform BFS starting from the first vertex in the list
+    BFS(head);
 
-    // int value = 50 ;
-    // Node* pre = inorderPre(root , value);
-    // if(pre == NULL){
-    //     cout<<"no predeccessor";
-    // }
-    // else{
-    //     cout<<"predeccessor of " << value << " is " << pre->data;
-    // }
+    // Find and print path from vertex 1 to vertex 5
+    vertex* startVertex = head;
+    vertex* endVertex = head;
+    while (endVertex != nullptr && endVertex->data != 5) {
+        endVertex = endVertex->next;
+    }
+
+    printPath(startVertex, endVertex);
 
     return 0;
 }

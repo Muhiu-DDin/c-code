@@ -4,46 +4,76 @@
 
 // // USING LINEAR PROBING:
 
-// void insert(int key, int array[], int size)
-// {
+// #include <iostream>
+using namespace std;
 
-//     int key_refer = key;
+void insert(int list[] , int size , int key ){
+    int index = key%size;
+    int original_index = index;
 
-//     int index = key_refer % size;
-//     int original_Index = index;
+    if(list[index] == -1){
+        list[index] = key;
+    }
+    else{
+        while(list[index] != -1){
+        index = (index+1)%size;
+        if(index == original_index){
+            cout<<"no more space";
+            return;
+        }
+        }
+        list[index] = key;
+    }
+}
+void search(int list[] , int key , int size){
+    int index = key%size;
+    int original_index = index;
 
-//     int i = 1 ;
-//     while (array[index] != -1) 
-//     {
-      
-//         index = (index + i) % size;
- 
-//         if (original_Index == index)
-//         {
-//             cout << "array is full"<<endl;
-//             return;
-//         }
-//     }
-//     array[index] = key_refer ;
-// }
+    if(list[index] == key){
+        cout<<"found";
+        return;
+    }
+    else{
+        while(list[index] != key){
+            index = (index+1)%size;
+            if(index == original_index){
+                cout<<"not found";
+                return;
+            }
+        }
+        cout<<"found";
+    }
+}
 
-// void search(int key , int array[] , int size){
+void print(int list[] , int size){
+    for(int a = 0 ; a < size ; a++){
+        cout<<list[a]<<" ";
+    }
+}
 
-// int index = key % size;
-// int original_Index = index;
 
-//     while(array[index] != key ){
-//         index = (index+1)%size;
 
-//         if(original_Index == index){
-//             cout<<"not found"<<endl;
-//             return;
-//         }
-//     }
+int main(){
 
-//     cout<<"found"<<endl;
-//     return;
-// }
+    int size = 10;
+    int list[size];
+
+    for(int a = 0 ; a < size ; a++){
+        list[a]  = -1;
+    }
+
+    insert(list , size , 10);
+    insert(list , size , 20);
+    insert(list , size , 30);
+    insert(list , size , 43);
+    insert(list , size , 31);
+
+    print(list , size);
+    search(list , 22 , size);
+    
+
+    return 0;
+}
 
 // int main()
 // {

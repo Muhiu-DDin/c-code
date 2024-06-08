@@ -91,7 +91,7 @@ node *insert(node *root_refer, int data)
             root_refer->right = insert(root_refer->right, data);
         }
         else
-        {
+        { 
             root_refer-> left = insert(root_refer->left, data);
         }
     }

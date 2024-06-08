@@ -1,5 +1,11 @@
- // cout << endl << "Paths from vertex 0 to other vertices:" << endl;
-    // for (int i = 1; i < 5; ++i) {
-    //     cout << "Path to vertex " << i << ": ";
-    //     printPath(head, i);
-    //    
+void print(node* list[] , int size){
+//     for(int a = 0 ; a < size ; a++){
+//             node* curr = list[a];
+//             while(curr!=NULL){
+//                 cout<<curr->data<<" ";
+//                 curr = curr->next;
+//             }
+//             cout<<"NULL";
+//             cout<<endl;
+//     }
+// }

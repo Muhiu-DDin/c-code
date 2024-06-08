@@ -31,8 +31,7 @@ if(top_refer==NULL){
     cout<<"empty stack";
 return;
 }
-node* current = top_refer;
-
+    node* current = top_refer;
     top_refer = current->next;
      cout<<"the poped element is"<< current->data;
     delete current;

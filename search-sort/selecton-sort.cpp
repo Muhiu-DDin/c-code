@@ -2,7 +2,7 @@
 using namespace std;
 
 // in selection sort array decreases form left side while in bubble sort array decreases from right side
-
+ 
 void selectionsort(int list[] , int n){
 
 for (int a = 0 ; a<n-1 ; a++){
