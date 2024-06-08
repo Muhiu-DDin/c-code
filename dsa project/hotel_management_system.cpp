@@ -142,6 +142,7 @@ void Hotel::updateRoomRecord(){
      Node* ptr = head;
      while(ptr != NULL){
         if(ID == ptr->ID){
+
             cout<<"\n\t ENTER NEW ROOM ID";
             cin>>ptr->ID;
 
@@ -149,14 +150,17 @@ void Hotel::updateRoomRecord(){
             cin>>ptr->customerName;
 
             cout<<"\n\t ENTER NEW ROOM TYPE";
-            cin>>ptr->roomType;            
+            cin>>ptr->roomType;
+
+            cout<<"\n Room Record Updated Successfully";
+            return;
+
         }
         else{
             ptr = ptr->next;
         }
      }
      }
-     cout<<"\n Room Record Updated Successfully";
 }
 
 void Hotel::del()
